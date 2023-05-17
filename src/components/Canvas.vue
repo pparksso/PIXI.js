@@ -5,7 +5,7 @@
 </template>
 <script lang="ts" setup>
 import * as PIXI from 'pixi.js'
-import {onMounted, ref, watch, watchEffect} from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import {storeToRefs} from 'pinia'
 import {useTextStore} from '../stores/text'
 
@@ -20,12 +20,6 @@ let textStyle02: PIXI.TextStyle;
 let textStyle03: PIXI.TextStyle;
 let line: PIXI.Graphics;
 
-let moveX01:number;
-let moveY01:number;
-let moveX02:number;
-let moveY02:number;
-let moveX03:number;
-let moveY03:number;
 let moving01 = ref(false);
 let moving02 = ref(false);
 let moving03 = ref(false);
