@@ -1,9 +1,9 @@
 <template>
     <div class="tool-box">
-        <div class="tool-box--item"><label for="">font-size</label><input type="text" @change="fontSizeHandler" :value="fontSize" placeholder="숫자로 입력"></div>
-        <div class="tool-box--item"><label for="">font-color</label><input type="text" @change="fontColorHandler" :value="fontColor" placeholder="#000000"></div>
-        <div class="tool-box--item"><label for="">x</label><input type="text" :value="x" @change="xHandler" placeholder="숫자로 입력"></div>
-        <div class="tool-box--item"><label for="">y</label><input type="text" :value="y" @change="yHandler" placeholder="숫자로 입력"></div>
+        <div class="tool-box--item"><label for="">font-size</label><input type="text" @change="fontSizeHandler" v-model="fontSize" placeholder="숫자로 입력"></div>
+        <div class="tool-box--item"><label for="">font-color</label><input type="text" @change="fontColorHandler" v-model="fontColor" placeholder="#000000"></div>
+        <div class="tool-box--item"><label for="">x</label><input type="text" v-model="x" @change="xHandler" placeholder="숫자로 입력"></div>
+        <div class="tool-box--item"><label for="">y</label><input type="text" v-model="y" @change="yHandler" placeholder="숫자로 입력"></div>
         <!-- <button>변경</button> -->
     </div>
 </template>
@@ -16,19 +16,41 @@ const { fontSize, fontColor, x, y, active01, active02, active03, fontSize01, fon
 
 const fontSizeHandler = (e:Event) => {
     const {value} = e.target as HTMLInputElement;
+    if(Number(value) > 160 || Number(value) < 8) {
+        alert('폰트 사이즈는 8 ~ 160px 지정할 수 있습니다.')
+        return false;
+    }
     active01.value ? (fontSize01.value = value) : active02.value ? (fontSize02.value = value) : (fontSize03.value = value);
 }
 const fontColorHandler = (e:Event) => {
     const {value} = e.target as HTMLInputElement;
+
     active01.value ? (fontColor01.value = value) : active02.value? (fontColor02.value = value) : (fontColor03.value = value);
 }
 const xHandler = (e:Event) => {
     const {value} = e.target as HTMLInputElement;
+    if(Number(value) < 0) {
+        active01.value ? x.value = x01.value : active02.value ? x.value = x02.value : x.value = x03.value;
+        return false;
+    }
+        if(Number(value) > 1400) {
+            active01.value ? x.value = x01.value : active02.value ? x.value = x02.value : x.value = x03.value;
+            return false;
+        }
     active01.value ? (x01.value = value) : active02.value ? x02.value = value : x03.value = value
 }
 const yHandler = (e:Event) => {
     const {value} = e.target as HTMLInputElement;
+    if(Number(value) < 0) {
+        active01.value ? y.value = y01.value : active02.value ? y.value = y02.value : y.value = y03.value;
+        return false;
+    }
+        if(Number(value) > 1100) {
+            active01.value ? y.value = y01.value : active02.value ? y.value = y02.value : y.value = y03.value
+            return false;
+        }
     active01.value ? y01.value = value : active02.value ? y02.value = value : y03.value = value
+    
 }
 
 watch([active01, active02, active03],([newActive01, newActive02, newActive03]) => {

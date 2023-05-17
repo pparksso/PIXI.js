@@ -90,12 +90,11 @@ onMounted(() => {
     app.stage.addChild(contents03)
     app.stage.addChild(line)
 
-    const minPositionX01 = contents01.width / 2;
-    const minPositionY01 = contents01.height / 2;
-    const maxPositionX01 = app.view.width - contents01.width / 2;
-    const maxPositionY01 = app.view.height - contents01.height / 2;
-
-    let prevData01 = { x: 0, y:0 }; 
+    const canvasLeft = canvasRef.value?.getBoundingClientRect().x;
+    const canvasTop = canvasRef.value?.getBoundingClientRect().y;
+    const canvasRight = canvasRef.value?.getBoundingClientRect().right;
+    const canvasBot = canvasRef.value?.getBoundingClientRect().bottom;
+    
     contents01.on('click',() => {
         active01.value = true;
         active02.value = false;
@@ -126,7 +125,6 @@ onMounted(() => {
     contents01.on('pointerdown',(e) => {
         moving01.value = true;
         contents01.zIndex = 1;
-        prevData01 = e.data.getLocalPosition(contents01.parent);
     });
     contents01.on('pointermove',(e) => {
         if(moving01.value) {
@@ -134,17 +132,15 @@ onMounted(() => {
             contents01.y = contents01.y + e.movementY;
             x.value = String(contents01.x);
             y.value = String(contents01.y);
-            // const newPosition = e.data.getLocalPosition(contents01.parent);
-            // const deltaX = newPosition.x - prevData01.x;
-            // const deltaY = newPosition.y - prevData01.y;
-            // const newX = contents01.x + deltaX;
-            // const newY = contents01.y + deltaY;
-
-            // contents01.x = Math.max(minPositionX01, Math.min(newX, maxPositionX01));
-            // contents01.y = Math.max(minPositionY01, Math.min(newY, maxPositionY01));
-
-            // prevData01 = newPosition;
             reLine(contents01);
+            if(contents01.x < 0 - contents01.width / 2) contents01.x = 0 - contents01.width / 2;
+            if(contents01.y < 0 - contents01.height / 2) contents01.y = 0 - contents01.height / 2;
+            if(canvasRight && canvasLeft) {
+                if(contents01.x + canvasLeft >= canvasRight - contents01.width / 2)   contents01.x = canvasRight - contents01.width / 2 - canvasLeft;
+            }
+            if(canvasBot && canvasTop) {
+                if(contents01.y + canvasTop >= canvasBot - contents01.height / 2) contents01.y = canvasBot - canvasTop - contents01.height / 2
+            }
         }
     });
     contents01.on('pointerup',() => {
@@ -166,6 +162,14 @@ onMounted(() => {
             x.value = String(contents02.x);
             y.value = String(contents02.y);
             reLine(contents02);
+            if(contents02.x < 0 - contents02.width / 2) contents02.x = 0 - contents02.width / 2;
+            if(contents02.y < 0 - contents02.height / 2) contents02.y = 0 - contents02.height / 2;
+            if(canvasRight && canvasLeft) {
+                if(contents02.x + canvasLeft >= canvasRight - contents02.width / 2) contents02.x = canvasRight - contents02.width / 2 - canvasLeft;
+            }
+            if(canvasBot && canvasTop) {
+                if(contents02.y + canvasTop >= canvasBot - contents02.height / 2) contents02.y = canvasBot - canvasTop - contents02.height / 2
+            }
         }
     });
     contents02.on('pointerup',() => {
@@ -186,7 +190,15 @@ onMounted(() => {
         contents03.y = contents03.y + e.movementY;
         x.value = String(contents03.x);
         y.value = String(contents03.y);
-        reLine(contents03)
+        reLine(contents03);
+        if(contents03.x < 0 - contents03.width / 2) contents03.x = 0 - contents03.width / 2;
+            if(contents03.y < 0 - contents03.height / 2) contents03.y = 0 - contents03.height / 2;
+            if(canvasRight && canvasLeft) {
+                if(contents03.x + canvasLeft >= canvasRight - contents03.width / 2)   contents03.x = canvasRight - contents03.width / 2 - canvasLeft;
+            }
+            if(canvasBot && canvasTop) {
+                if(contents03.y + canvasTop >= canvasBot - contents03.height / 2) contents03.y = canvasBot - canvasTop - contents03.height / 2
+            }
       }  
     });
     contents03.on('pointerup',() => {
